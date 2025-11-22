@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;600&family=Great+Vibes&family=Kaushan+Script&family=Marck+Script&family=Pacifico&family=Playball&family=Satisfy&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+.signature-preview {
+  min-height: 220px;
+  border-radius: 20px;
+  padding: clamp(24px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.signature-preview::before {
+  display: none;
+}
+
+.signature-preview--transparent::before {
+  display: block;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.signature-preview > span {
+  position: relative;
+  z-index: 1;
+}

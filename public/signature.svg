@@ -1,0 +1,13 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signature logo">
+  <defs>
+    <linearGradient id="ink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="24" fill="#f4f5fb"/>
+  <path d="M20 74c18-18 34-16 46-6s26 14 34-8" stroke="url(#ink)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M70 36l30-12-12 30-18-18z" fill="#4338ca" opacity="0.9"/>
+  <path d="M70 36l-4 14 14-4-10-10z" fill="#1f2937" opacity="0.8"/>
+</svg>
+
