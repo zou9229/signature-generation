@@ -37,7 +37,7 @@ VITE_API_URL=https://api.example.com
 
 ## 当前配置状态
 
-- ✅ 域名: `signature-generation.top`（已硬编码）
+- ✅ 域名: `signature.aiomniahub.com`（已硬编码）
 - ✅ 所有 SEO 标签已配置
 - ✅ robots.txt 和 sitemap.xml 已配置
 - ✅ 无需环境变量

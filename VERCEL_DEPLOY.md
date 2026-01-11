@@ -1,7 +1,7 @@
 # Vercel 部署指南
 
 ## 域名配置
-- **你的域名**: `signature-generation.top`
+- **你的域名**: `signature.aiomniahub.com`
 - 所有配置文件已更新为你的域名
 
 ## 部署步骤
@@ -33,7 +33,7 @@ vercel --prod
 ### 3. 绑定自定义域名
 
 1. 在 Vercel 项目设置中，进入 "Domains"
-2. 添加 `signature-generation.top`
+2. 添加 `signature.aiomniahub.com`
 3. 按照提示配置 DNS 记录：
    - **A 记录**: `@` → Vercel 提供的 IP 地址
    - **CNAME 记录**: `www` → `cname.vercel-dns.com`

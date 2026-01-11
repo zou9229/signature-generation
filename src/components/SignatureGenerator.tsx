@@ -1,4 +1,6 @@
-import { useMemo, useRef, useState } from 'react'
+'use client'
+
+import { useMemo, useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Alert,
@@ -12,6 +14,7 @@ import {
   MenuItem,
   Paper,
   Slider,
+  Snackbar,
   Stack,
   Switch,
   TextField,
@@ -22,22 +25,40 @@ import {
 } from '@mui/material'
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded'
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { toPng, toSvg } from 'html-to-image'
-import { supportedLanguages } from './i18n'
-import { SEOContent } from './components/SEOContent'
-import './App.css'
+import { supportedLanguages } from '../i18n'
+import { SEOContent } from './SEOContent'
+import { useRouter, usePathname } from 'next/navigation'
+import '../App.css'
 
 const fontCatalog = [
-  { label: 'Dancing Script', value: '"Dancing Script", cursive' },
-  { label: 'Great Vibes', value: '"Great Vibes", cursive' },
-  { label: 'Playball', value: '"Playball", cursive' },
-  { label: 'Marck Script', value: '"Marck Script", cursive' },
-  { label: 'Noto Serif SC', value: '"Noto Serif SC", serif' },
-  { label: 'Allura', value: '"Allura", cursive' },
-  { label: 'Pacifico', value: '"Pacifico", cursive' },
-  { label: 'Satisfy', value: '"Satisfy", cursive' },
-  { label: 'Kaushan Script', value: '"Kaushan Script", cursive' },
+  { label: 'Great Vibes (English)', value: '"Great Vibes", cursive' },
+  { label: 'Dancing Script (English)', value: '"Dancing Script", cursive' },
+  { label: 'Ma Shan Zheng (中文楷书)', value: '"Ma Shan Zheng", cursive' },
+  { label: 'ZCOOL XiaoWei (中文宋体)', value: '"ZCOOL XiaoWei", serif' },
+  { label: 'Zhi Mang Xing (中文行书)', value: '"Zhi Mang Xing", cursive' },
+  { label: 'Long Cang (中文草书)', value: '"Long Cang", cursive' },
+  { label: 'Liu Jian Mao Cao (中文狂草)', value: '"Liu Jian Mao Cao", cursive' },
+  { label: 'Playball (English)', value: '"Playball", cursive' },
+  { label: 'Sacramento (English)', value: '"Sacramento", cursive' },
+  { label: 'Parisienne (English)', value: '"Parisienne", cursive' },
+  { label: 'Cookie (English)', value: '"Cookie", cursive' },
+  { label: 'Yellowtail (English)', value: '"Yellowtail", cursive' },
+  { label: 'Marck Script (English)', value: '"Marck Script", cursive' },
+  { label: 'Noto Serif SC (中文宋体)', value: '"Noto Serif SC", serif' },
+  { label: 'Allura (English)', value: '"Allura", cursive' },
+  { label: 'Pacifico (English)', value: '"Pacifico", cursive' },
+  { label: 'Satisfy (English)', value: '"Satisfy", cursive' },
+  { label: 'Kaushan Script (English)', value: '"Kaushan Script", cursive' },
+  { label: 'Yuji Syuku (日本語)', value: '"Yuji Syuku", serif' },
+  { label: 'Nanum Pen Script (한국어)', value: '"Nanum Pen Script", cursive' },
+  { label: 'Hi Melody (한국어)', value: '"Hi Melody", cursive' },
+  { label: 'Kalam (Hindi)', value: '"Kalam", cursive' },
+  { label: 'Aref Ruqaa (Arabic)', value: '"Aref Ruqaa", serif' },
+  { label: 'Bad Script (Russian)', value: '"Bad Script", cursive' },
+  { label: 'Caveat (European)', value: '"Caveat", cursive' },
 ]
 
 type TextureKey = 'none' | 'paper' | 'dots' | 'lines'
@@ -66,7 +87,7 @@ const textureStyles: Record<
 }
 
 const defaultState = {
-  text: 'felix zou',
+  text: 'felix',
   fontFamily: fontCatalog[0].value,
   fontColor: '#1b1b1b',
   backgroundColor: '#ffffff',
@@ -77,11 +98,19 @@ const defaultState = {
 
 type FormState = typeof defaultState
 
-function App() {
+export function SignatureGenerator({ lang }: { lang: string }) {
   const { t, i18n } = useTranslation()
+  const router = useRouter()
   const [form, setForm] = useState<FormState>({ ...defaultState })
   const [isExporting, setIsExporting] = useState(false)
+  const [toast, setToast] = useState<{ open: boolean; message: string }>({ open: false, message: '' })
   const signatureRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (i18n.language !== lang) {
+      i18n.changeLanguage(lang)
+    }
+  }, [lang, i18n])
 
   const theme = useMemo(
     () =>
@@ -140,26 +169,58 @@ function App() {
     }
   }
 
+  const copyToClipboard = async () => {
+    if (!signatureRef.current || !canExport) return
+    setIsExporting(true)
+    try {
+      const texture = textureStyles[form.texture]
+      const blob = await toPng(signatureRef.current, {
+        cacheBust: true,
+        backgroundColor: form.transparentBg ? undefined : form.backgroundColor,
+        style: {
+          backgroundImage: form.transparentBg ? undefined : texture.backgroundImage,
+          backgroundBlendMode: texture.backgroundBlendMode,
+          backgroundSize: texture.backgroundSize,
+        },
+      }).then((dataUrl) => fetch(dataUrl).then((res) => res.blob()))
+
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ])
+      setToast({ open: true, message: t('copySuccess') })
+    } catch (error) {
+      console.error(error)
+      setToast({ open: true, message: t('copyFail') })
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
+  const handleLanguageChange = (newLang: string) => {
+    router.push(`/${newLang}`)
+  }
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="lg" sx={{ py: { xs: 3, md: 5 } }}>
+    <>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 3, md: 5 },
+            p: { xs: 2, md: 3 },
             mb: 3,
             borderRadius: 4,
             background: 'linear-gradient(135deg, #eef2ff 0%, #fdf2f8 100%)',
             border: '1px solid rgba(15,23,42,0.08)',
           }}
         >
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="flex-start">
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
             <Box>
-              <Typography component="h2" variant="h4" fontWeight={700} gutterBottom>
+              <Typography component="h1" variant="h5" fontWeight={700} gutterBottom sx={{ mb: 0.5 }}>
                 {t('title')}
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body2" color="text.secondary">
                 {t('subtitle')}
               </Typography>
             </Box>
@@ -167,13 +228,13 @@ function App() {
               select
               size="small"
               label={t('language')}
-              value={i18n.language}
-              onChange={(event) => i18n.changeLanguage(event.target.value)}
-              sx={{ width: 180 }}
+              value={lang || 'en'}
+              onChange={(event) => handleLanguageChange(event.target.value)}
+              sx={{ width: { xs: '100%', sm: 150 } }}
             >
-              {supportedLanguages.map((lang) => (
-                <MenuItem key={lang.code} value={lang.code}>
-                  {lang.label}
+              {supportedLanguages.map((l) => (
+                <MenuItem key={l.code} value={l.code}>
+                  {l.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -338,7 +399,9 @@ function App() {
                 }`}
                 sx={{
                   backgroundColor: form.transparentBg ? 'transparent' : form.backgroundColor,
-                  border: '1px dashed rgba(0,0,0,0.08)',
+                  border: form.transparentBg ? '1px dashed rgba(0,0,0,0.1)' : '1px solid rgba(0,0,0,0.05)',
+                  boxShadow: form.transparentBg ? 'none' : '0 8px 32px rgba(0,0,0,0.08)',
+                  transition: 'all 0.3s ease',
                   backgroundImage: form.transparentBg ? undefined : textureStyles[form.texture].backgroundImage,
                   backgroundBlendMode: textureStyles[form.texture].backgroundBlendMode,
                   backgroundSize: textureStyles[form.texture].backgroundSize,
@@ -352,6 +415,7 @@ function App() {
                     color: form.fontColor,
                     display: 'inline-block',
                     whiteSpace: 'pre-line',
+                    textAlign: 'center',
                   }}
                 >
                   {form.text || t('placeholder')}
@@ -367,8 +431,8 @@ function App() {
               </Alert>
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
-                spacing={2}
-                sx={{ flexWrap: 'wrap', rowGap: 2 }}
+                spacing={1.5}
+                sx={{ flexWrap: 'wrap', rowGap: 1.5 }}
               >
                 <Button
                   variant="contained"
@@ -376,7 +440,7 @@ function App() {
                   startIcon={<FileDownloadRoundedIcon />}
                   onClick={() => exportSignature('png')}
                   disabled={!canExport}
-                  sx={{ flex: 1, minWidth: { sm: 180 } }}
+                  sx={{ flex: '1 1 45%' }}
                 >
                   {isExporting ? t('generating') : t('download')}
                 </Button>
@@ -386,16 +450,26 @@ function App() {
                   startIcon={<FileDownloadRoundedIcon />}
                   onClick={() => exportSignature('svg')}
                   disabled={!canExport}
-                  sx={{ flex: 1, minWidth: { sm: 180 } }}
+                  sx={{ flex: '1 1 45%' }}
                 >
                   {isExporting ? t('generating') : t('downloadSvg')}
                 </Button>
                 <Button
                   variant="outlined"
                   size="large"
+                  startIcon={<ContentCopyRoundedIcon />}
+                  onClick={copyToClipboard}
+                  disabled={!canExport}
+                  sx={{ flex: '1 1 45%' }}
+                >
+                  {t('copyImage')}
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
                   startIcon={<RestartAltRoundedIcon />}
                   onClick={resetForm}
-                  sx={{ flexBasis: { xs: '100%', sm: 'auto' }, minWidth: { sm: 180 } }}
+                  sx={{ flex: '1 1 45%' }}
                 >
                   {t('reset')}
                 </Button>
@@ -404,9 +478,14 @@ function App() {
           </Paper>
         </Box>
         <SEOContent />
+        <Snackbar
+          open={toast.open}
+          autoHideDuration={3000}
+          onClose={() => setToast({ ...toast, open: false })}
+          message={toast.message}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
       </Container>
-    </ThemeProvider>
+    </>
   )
 }
-
-export default App
