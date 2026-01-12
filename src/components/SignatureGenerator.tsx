@@ -30,6 +30,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { toPng, toSvg } from 'html-to-image'
 import { supportedLanguages } from '../i18n'
 import { SEOContent } from './SEOContent'
+import GeoInfo from './GeoInfo'
 import { useRouter, usePathname } from 'next/navigation'
 import '../App.css'
 
@@ -215,8 +216,14 @@ export function SignatureGenerator({ lang }: { lang: string }) {
             border: '1px solid rgba(15,23,42,0.08)',
           }}
         >
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
-            <Box>
+          <Stack 
+            direction={{ xs: 'column', md: 'row' }} 
+            spacing={2} 
+            alignItems="center" 
+            justifyContent="space-between"
+            sx={{ width: '100%' }}
+          >
+            <Box sx={{ flex: 1, width: '100%', textAlign: { xs: 'center', md: 'left' } }}>
               <Typography component="h1" variant="h5" fontWeight={700} gutterBottom sx={{ mb: 0.5 }}>
                 {t('title')}
               </Typography>
@@ -224,20 +231,33 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                 {t('subtitle')}
               </Typography>
             </Box>
-            <TextField
-              select
-              size="small"
-              label={t('language')}
-              value={lang || 'en'}
-              onChange={(event) => handleLanguageChange(event.target.value)}
-              sx={{ width: { xs: '100%', sm: 150 } }}
+
+            <Stack 
+              direction="row" 
+              spacing={2} 
+              alignItems="center" 
+              justifyContent={{ xs: 'center', md: 'flex-end' }}
+              sx={{ flex: 1, width: '100%' }}
             >
-              {supportedLanguages.map((l) => (
-                <MenuItem key={l.code} value={l.code}>
-                  {l.label}
-                </MenuItem>
-              ))}
-            </TextField>
+              <Box sx={{ minWidth: 150 }}>
+                <TextField
+                  id="language-select"
+                  select
+                  size="small"
+                  label={t('language')}
+                  value={lang || 'en'}
+                  onChange={(event) => handleLanguageChange(event.target.value)}
+                  sx={{ width: '100%' }}
+                >
+                  {supportedLanguages.map((l) => (
+                    <MenuItem key={l.code} value={l.code}>
+                      {l.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
+              <GeoInfo />
+            </Stack>
           </Stack>
         </Paper>
 
@@ -252,6 +272,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
           <Paper elevation={2} sx={{ p: { xs: 3, md: 4 }, height: '100%' }}>
             <Stack spacing={3}>
               <TextField
+                id="signature-text-input"
                 fullWidth
                 label={t('inputLabel')}
                 placeholder={t('placeholder')}
@@ -272,6 +293,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                 }}
               >
                 <TextField
+                  id="font-family-select"
                   fullWidth
                   select
                   label={t('fontFamily')}
@@ -299,6 +321,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                   />
                 </Box>
                 <TextField
+                  id="font-color-input"
                   fullWidth
                   type="color"
                   label={t('fontColor')}
@@ -316,6 +339,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                   }}
                 >
                   <TextField
+                    id="background-color-input"
                     fullWidth
                     type="color"
                     label={t('backgroundColor')}
@@ -327,6 +351,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                   <FormControlLabel
                     control={
                       <Switch
+                        id="transparent-bg-switch"
                         checked={form.transparentBg}
                         onChange={(event) => updateForm('transparentBg', event.target.checked)}
                       />
@@ -352,6 +377,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                   </Typography>
                 )}
                 <TextField
+                  id="texture-select"
                   fullWidth
                   select
                   label={t('texture')}

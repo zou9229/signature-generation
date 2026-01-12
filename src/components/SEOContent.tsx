@@ -35,11 +35,11 @@ export function SEOContent() {
               <Typography variant="body1" color="text.secondary" paragraph>
                 {t('seo.faq1Desc')}
               </Typography>
-              <ul>
-                <li><Typography variant="body2" color="text.secondary"><Trans i18nKey="seo.faq1Point1"><strong>Chinese Support:</strong> Unique support for Chinese handwritten fonts.</Trans></Typography></li>
-                <li><Typography variant="body2" color="text.secondary"><Trans i18nKey="seo.faq1Point2"><strong>Vector Export:</strong> Download as SVG for infinite scalability.</Trans></Typography></li>
-                <li><Typography variant="body2" color="text.secondary"><Trans i18nKey="seo.faq1Point3"><strong>Privacy First:</strong> No data is uploaded to servers.</Trans></Typography></li>
-              </ul>
+              <Box component="ul" sx={{ pl: 2 }}>
+                <li><Typography variant="body2" color="text.secondary"><Trans i18nKey="seo.faq1Point1" /></Typography></li>
+                <li><Typography variant="body2" color="text.secondary"><Trans i18nKey="seo.faq1Point2" /></Typography></li>
+                <li><Typography variant="body2" color="text.secondary"><Trans i18nKey="seo.faq1Point3" /></Typography></li>
+              </Box>
             </AccordionDetails>
           </Accordion>
 
@@ -51,9 +51,7 @@ export function SEOContent() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography variant="body1" color="text.secondary" paragraph>
-                <Trans i18nKey="seo.faq2Desc">
-                  Yes! We have integrated Google Fonts specifically for Chinese characters, including <em>Ma Shan Zheng</em> (Calligraphy style), <em>Long Cang</em> (Freestyle), and <em>Zhi Mang Xing</em>.
-                </Trans>
+                <Trans i18nKey="seo.faq2Desc" />
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -101,9 +99,7 @@ export function SEOContent() {
             </AccordionSummary>
             <AccordionDetails>
               <Typography variant="body1" color="text.secondary" paragraph>
-                <Trans i18nKey="seo.privacyDesc">
-                  We prioritize your privacy. <strong>All processing happens locally in your browser.</strong> Your text and signature data never leave your device.
-                </Trans>
+                <Trans i18nKey="seo.privacyDesc" />
               </Typography>
             </AccordionDetails>
           </Accordion>
