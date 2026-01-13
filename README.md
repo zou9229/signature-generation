@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# Free Signature Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, fast, and privacy-focused online signature generator supporting 33 languages. Create professional handwritten signatures in seconds.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **33 Supported Languages:** Native font support for English, Chinese (Simplified/Traditional), Japanese, Korean, Russian, Hindi, Arabic, and many more.
+- **Privacy First:** 100% client-side generation. No data is ever uploaded to a server.
+- **Vector & Raster Export:** Download as scalable SVG or transparent PNG (with texture support).
+- **Customizable:** Adjust font family, size, color, and background texture.
+- **Geo-Aware:** Automatically detects user location to suggest the appropriate language.
 
-## React Compiler
+## Supported Languages
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+English, 简体中文, Español, Français, Deutsch, Nederlands, Português, Italiano, 日本語, 한국어, Русский, Tiếng Việt, Polski, Türkçe, العربية, हिन्दी, Български, Hrvatski, Čeština, Dansk, Eesti, Suomi, Ελληνικά, Magyar, Gaeilge, Latviešu, Lietuvių, Malti, Română, Slovenčina, Slovenščina, Svenska, Norsk.
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Framework:** [Next.js](https://nextjs.org/) (React)
+- **Styling:** [Material UI (MUI)](https://mui.com/)
+- **Bundler:** [Vite](https://vitejs.dev/) (via Next.js Turbopack)
+- **Internationalization:** [i18next](https://www.i18next.com/)
+- **Linting:** ESLint + TypeScript
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Development
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3.  **Build for production:**
+    ```bash
+    npm run build
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Contributing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
