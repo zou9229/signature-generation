@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { supportedLanguages } from '../constants/languages'
 
-const BASE_URL = 'https://signature-generation.top'
+const BASE_URL = 'https://signature.aiomniahub.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = supportedLanguages.map((lang) => ({
