@@ -39,6 +39,12 @@ English, 简体中文, Español, Français, Deutsch, Nederlands, Português, Ita
     npm run build
     ```
 
+    The production build exports static files to `out/` for Cloudflare Pages.
+
+## Deployment
+
+See [CLOUDFLARE_DEPLOY.md](./CLOUDFLARE_DEPLOY.md) for Cloudflare Pages settings and domain cutover steps.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

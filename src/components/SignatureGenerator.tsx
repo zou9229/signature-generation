@@ -1,13 +1,12 @@
 'use client'
 
-import { useMemo, useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Alert,
   Box,
   Button,
   Container,
-  CssBaseline,
   Divider,
   FormControlLabel,
   IconButton,
@@ -18,10 +17,8 @@ import {
   Stack,
   Switch,
   TextField,
-  ThemeProvider,
   Tooltip,
   Typography,
-  createTheme,
 } from '@mui/material'
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded'
@@ -31,7 +28,7 @@ import { toPng, toSvg } from 'html-to-image'
 import { supportedLanguages } from '../i18n'
 import { SEOContent } from './SEOContent'
 import GeoInfo from './GeoInfo'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import '../App.css'
 
 const fontCatalog = [
@@ -113,24 +110,6 @@ export function SignatureGenerator({ lang }: { lang: string }) {
     }
   }, [lang, i18n])
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        typography: {
-          fontFamily: '"Noto Sans SC","Roboto","Segoe UI",sans-serif',
-        },
-        shape: {
-          borderRadius: 16,
-        },
-        palette: {
-          background: {
-            default: '#f4f5fb',
-          },
-        },
-      }),
-    [],
-  )
-
   const updateForm = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }))
   }
@@ -200,7 +179,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
   }
 
   const handleLanguageChange = (newLang: string) => {
-    router.push(`/${newLang}`)
+    router.push(newLang === 'en' ? '/' : `/${newLang}`)
   }
 
   return (

@@ -1,10 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Box, Typography, Chip, CircularProgress } from '@mui/material'
-import PublicIcon from '@mui/icons-material/Public'
+import { Box, Typography } from '@mui/material'
 import { useRouter, usePathname } from 'next/navigation'
-import { supportedLanguages } from '../i18n'
 
 interface IpData {
   ip: string
@@ -73,7 +71,7 @@ export default function GeoInfo() {
             const ipData = await ipResponse.json()
             ip = ipData.ip
           }
-        } catch (e) {
+        } catch {
           // Silent fallback to default connection (could be IPv6)
         }
 
@@ -115,7 +113,7 @@ export default function GeoInfo() {
         }
         setLoading(false)
 
-      } catch (error) {
+      } catch {
         // Silently fail and retry in background if geo-location services are blocked or fail
         if (isMounted) {
             timeoutId = setTimeout(fetchIpData, 10000) // Retry every 10 seconds
