@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Providers } from './providers'
 import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, SITE_NAME, SITE_URL } from '../constants/site'
 import { OrganizationStructuredData } from '../components/StructuredData'
+import { AdSenseScript } from '../components/AdSenseScript'
 
 export const viewport = {
   width: 'device-width',
@@ -49,8 +50,18 @@ export default function RootLayout({
       </head>
       <body>
         <OrganizationStructuredData />
+        <AdSenseScript />
         <Providers>
           <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <header className="site-header">
+              <a className="site-brand" href="/">Free Signature Generator</a>
+              <nav className="site-nav" aria-label="Primary">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/privacy/">Privacy</a>
+                <a href="/contact/">Contact</a>
+              </nav>
+            </header>
             <main style={{ flex: 1 }}>{children}</main>
             <footer style={{ padding: '24px', textAlign: 'center', backgroundColor: 'transparent' }}>
               <nav className="footer-links" aria-label="Footer">

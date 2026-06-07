@@ -45,6 +45,10 @@ English, 简体中文, Español, Français, Deutsch, Nederlands, Português, Ita
 
 See [CLOUDFLARE_DEPLOY.md](./CLOUDFLARE_DEPLOY.md) for Cloudflare Pages settings and domain cutover steps.
 
+## Monetization
+
+See [ADSENSE_SETUP.md](./ADSENSE_SETUP.md) for optional Google AdSense configuration.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

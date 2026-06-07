@@ -27,7 +27,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { toPng, toSvg } from 'html-to-image'
 import { supportedLanguages } from '../i18n'
 import { SEOContent } from './SEOContent'
-import GeoInfo from './GeoInfo'
 import { useRouter } from 'next/navigation'
 import '../App.css'
 
@@ -99,6 +98,8 @@ type FormState = typeof defaultState
 export function SignatureGenerator({ lang }: { lang: string }) {
   const { t, i18n } = useTranslation()
   const router = useRouter()
+  const contentLang = lang === 'zh' ? 'zh-Hans' : lang
+  const contentDir = lang === 'ar' ? 'rtl' : 'ltr'
   const [form, setForm] = useState<FormState>({ ...defaultState })
   const [isExporting, setIsExporting] = useState(false)
   const [toast, setToast] = useState<{ open: boolean; message: string }>({ open: false, message: '' })
@@ -184,7 +185,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Container maxWidth="lg" lang={contentLang} dir={contentDir} sx={{ py: { xs: 2, md: 4 } }}>
         <Paper
           elevation={0}
           sx={{
@@ -235,7 +236,6 @@ export function SignatureGenerator({ lang }: { lang: string }) {
                   ))}
                 </TextField>
               </Box>
-              <GeoInfo />
             </Stack>
           </Stack>
         </Paper>
