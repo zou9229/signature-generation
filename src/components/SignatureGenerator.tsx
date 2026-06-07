@@ -482,7 +482,7 @@ export function SignatureGenerator({ lang }: { lang: string }) {
             </Stack>
           </Paper>
         </Box>
-        <SEOContent />
+        <SEOContent lang={lang} />
         <Snackbar
           open={toast.open}
           autoHideDuration={3000}
